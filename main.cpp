@@ -3,7 +3,6 @@
 
 using namespace BT;
 
-// Action node for moving towards a target
 class MoveTowards : public SyncActionNode
 {
 public:
@@ -31,7 +30,6 @@ public:
     }
 };
 
-// Condition node for checking if a door is open
 class IsDoorOpen : public ConditionNode
 {
 public:
@@ -59,7 +57,6 @@ public:
     }
 };
 
-// Action node for opening a door
 class OpenDoor : public SyncActionNode
 {
 public:
@@ -87,7 +84,6 @@ public:
     }
 };
 
-// Action node for closing a door
 class CloseDoor : public SyncActionNode
 {
 public:
@@ -115,7 +111,6 @@ public:
     }
 };
 
-// Action node for entering a room
 class EnterRoom : public SyncActionNode
 {
 public:
@@ -136,7 +131,6 @@ public:
     }
 };
 
-// Action node for exiting a room
 class ExitRoom : public SyncActionNode
 {
 public:
@@ -157,7 +151,6 @@ public:
     }
 };
 
-// Action node for finding an apple
 class FindApple : public SyncActionNode
 {
 public:
@@ -178,7 +171,6 @@ public:
     }
 };
 
-// Action node for picking an apple
 class PickApple : public SyncActionNode
 {
 public:
@@ -199,50 +191,10 @@ public:
     }
 };
 
-// // The XML string defining our behavior tree
-// static const char* xml_text = R"(
-// <root main_tree_to_execute="RobotTask">
-//     <BehaviorTree ID="RobotTask">
-//         <Sequence name="MainSequence">
-//             <!-- First approach and enter the room -->
-//             <Sequence name="EnterRoomSequence">
-//                 <Action ID="MoveTowards" target="room_door"/>
-//                 <Fallback name="HandleRoomDoor">
-//                     <Condition ID="IsDoorOpen" door="room_door"/>
-//                     <Action ID="OpenDoor" door="room_door"/>
-//                 </Fallback>
-//                 <Action ID="EnterRoom"/>
-//             </Sequence>
-            
-//             <!-- Then approach and open the fridge -->
-//             <Sequence name="FridgeInteractionSequence">
-//                 <Action ID="MoveTowards" target="fridge_door"/>
-//                 <Fallback name="HandleFridgeDoor">
-//                     <Condition ID="IsDoorOpen" door="fridge_door"/>
-//                     <Action ID="OpenDoor" door="fridge_door"/>
-//                 </Fallback>
-//                 <!-- Find and pick the apple -->
-//                 <Action ID="FindApple"/>
-//                 <Action ID="PickApple"/>
-//                 <!-- Close the fridge -->
-//                 <Action ID="CloseDoor" door="fridge_door"/>
-//             </Sequence>
-            
-//             <!-- Exit the room -->
-//             <Sequence name="ExitRoomSequence">
-//                 <Action ID="MoveTowards" target="room_door"/>
-//                 <Action ID="ExitRoom"/>
-//             </Sequence>
-//         </Sequence>
-//     </BehaviorTree>
-// </root>
-// )";
 
 int main() {
-    // Create a BehaviorTree factory
     BehaviorTreeFactory factory;
 
-    // Register all node types
     factory.registerNodeType<MoveTowards>("MoveTowards");
     factory.registerNodeType<IsDoorOpen>("IsDoorOpen");
     factory.registerNodeType<OpenDoor>("OpenDoor");
@@ -252,11 +204,8 @@ int main() {
     factory.registerNodeType<FindApple>("FindApple");
     factory.registerNodeType<PickApple>("PickApple");
 
-    // Create the behavior tree
-    // auto tree = factory.createTreeFromText(xml_text);
     auto tree = factory.createTreeFromFile("./../tree.xml");
     
-    // Execute the behavior tree
     std::cout << "\n--- Starting Robot Task ---\n" << std::endl;
     tree.tickRoot();
     
