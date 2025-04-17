@@ -1,0 +1,35 @@
+<root main_tree_to_execute="RobotTask">
+    <BehaviorTree ID="RobotTask">
+        <Sequence name="MainSequence">
+            <!-- First approach and enter the room -->
+            <Sequence name="EnterRoomSequence">
+                <Action ID="MoveTowards" target="room_door"/>
+                <Fallback name="HandleRoomDoor">
+                    <Condition ID="IsDoorOpen" door="room_door"/>
+                    <Action ID="OpenDoor" door="room_door"/>
+                </Fallback>
+                <Action ID="EnterRoom"/>
+            </Sequence>
+            
+            <!-- Then approach and open the fridge -->
+            <Sequence name="FridgeInteractionSequence">
+                <Action ID="MoveTowards" target="fridge_door"/>
+                <Fallback name="HandleFridgeDoor">
+                    <Condition ID="IsDoorOpen" door="fridge_door"/>
+                    <Action ID="OpenDoor" door="fridge_door"/>
+                </Fallback>
+                <!-- Find and pick the apple -->
+                <Action ID="FindApple"/>
+                <Action ID="PickApple"/>
+                <!-- Close the fridge -->
+                <Action ID="CloseDoor" door="fridge_door"/>
+            </Sequence>
+            
+            <!-- Exit the room -->
+            <Sequence name="ExitRoomSequence">
+                <Action ID="MoveTowards" target="room_door"/>
+                <Action ID="ExitRoom"/>
+            </Sequence>
+        </Sequence>
+    </BehaviorTree>
+</root>
